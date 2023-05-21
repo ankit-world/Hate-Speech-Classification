@@ -1,0 +1,94 @@
+## Steps from begining to end
+1. create template.py file to create folder structure
+2. Update the requirements.txt file.
+3. Update code in setup.py file
+4. Add artifact_entity.py and config_entity.py file under entity folder
+5. create database.py under constant, mongo_db_connection.py under configuration, and write code for database connection and details
+6. Update logger and exception code, create and update name of secret varibales in env_variable file and s3 bucket file for bucket name, create and update application.py file with port and host under constant folder
+7. Create and update training_pipeline under constant to define training constants(initially line 1 to 17), also update config_entity.py (3, (5 to 11)) along with required schema.yaml file under config
+8. Create main_utils.py file in utils folder in order to write frequent functions that will be frequently used in the code
+9. Go as per the workflow:
+    - Data Ingestion
+        * update constant/training_pipeline/__init__.py
+        * update entity/config_entity 
+        * update entity/artifact_entity
+        * update pipeline/training_pipeline.py
+        * update components/data_ingestion.py
+        * create and update data_access/sensor_data.py
+    
+    - Data Validation
+        * update constant/training_pipeline/__init__.py
+        * update entity/config_entity 
+        * update entity/artifact_entity
+        * update pipeline/training_pipeline.py
+        * update components/data_validation.py
+    
+    - Data Transformation
+        * update constant/training_pipeline/__init__.py
+        * update entity/config_entity 
+        * update entity/artifact_entity
+        * update pipeline/training_pipeline.py
+        * update components/data_transformation.py
+
+    - Model Trainer
+        * update constant/training_pipeline/__init__.py
+        * update entity/config_entity 
+        * update entity/artifact_entity
+        * update pipeline/training_pipeline.py
+        * update ml/model/estimator.py
+        *update ml/metric/classification.py
+        * update components/model_trainer.py
+
+    - Model Evaluation
+        * update constant/training_pipeline/__init__.py
+        * update entity/config_entity 
+        * update entity/artifact_entity
+        * update pipeline/training_pipeline.py
+        * update ml/model/estimator.py
+        * update components/model_trainer.py
+
+    - Model Pusher
+        * update constant/training_pipeline/__init__.py
+        * update entity/config_entity 
+        * update entity/artifact_entity
+        * update pipeline/training_pipeline.py
+        * update ml/model/estimator.py
+        * update components/model_pusher.py
+
+
+    - 
+7. Deployment(AWS)
+    -Build Docker Image of the source code
+    -Push your docker image to ECR
+    -Launch your EC2
+    -Launch your docker image into EC2
+
+
+# Data Drift
+## Training pipeline
+    - Base Dataset : Train
+    - To compare with : Test
+    If same distribution: No drift
+    Solution: If distribution not same , Train and Test must have same distribution, if not then do train test correctly
+## Prediction Pipleline
+    Instance Prediction - Not possible to detect data drift , coz not possible to summarize one record
+    Solution- You can save each record in database, then you can fetch all request ny hour by day
+    eg - *collect data of one day.
+         *will go for data drift detection.
+         *train dataset, collected dataset
+         *see the drift report , if huge diff > go for retraining else keep checking data drift everyday
+
+    Batch Prediction- use train dataset as base and batch data to compare data drift
+        * If drift found> send alert that data drift detected so retrain using new dataset and do the prediction
+
+Concept drift
+    ## It is related to a model, where if relation between input feature and target feature is changed , please retrain the model
+
+# Target drift
+    ## If distribution of target column changed then we have target drift
+    eg - Target column data (NEG, POS)
+        Real Word data (NWG, POS M NEUTRAL)# Here Neutral is not used while model training
+    solution - go for retraining
+         
+        
+
