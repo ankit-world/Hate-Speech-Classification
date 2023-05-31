@@ -4,24 +4,18 @@
 3. Update code in setup.py file
 4. Add artifact_entity.py and config_entity.py file under entity folder
 5. create database.py under constant, mongo_db_connection.py under configuration, and write code for database connection and details
-6. Update logger and exception code, create and update name of secret varibales in env_variable file and s3 bucket file for bucket name, create and update application.py file with port and host under constant folder
-7. Create and update training_pipeline under constant to define training constants(initially line 1 to 17), also update config_entity.py (3, (5 to 11)) along with required schema.yaml file under config
-8. Create main_utils.py file in utils folder in order to write frequent functions that will be frequently used in the code
+6. Update logger and exception code,  gcloud bucket file for bucket name, create and update application.py file with port and host under constant folder
+
+
 9. Go as per the workflow:
     - Data Ingestion
         * update constant/training_pipeline/__init__.py
         * update entity/config_entity 
         * update entity/artifact_entity
-        * update pipeline/training_pipeline.py
+        * update pipeline/train_pipeline.py
         * update components/data_ingestion.py
         * create and update data_access/sensor_data.py
     
-    - Data Validation
-        * update constant/training_pipeline/__init__.py
-        * update entity/config_entity 
-        * update entity/artifact_entity
-        * update pipeline/training_pipeline.py
-        * update components/data_validation.py
     
     - Data Transformation
         * update constant/training_pipeline/__init__.py
@@ -35,7 +29,7 @@
         * update entity/config_entity 
         * update entity/artifact_entity
         * update pipeline/training_pipeline.py
-        * update ml/model/estimator.py
+        * update ml/model.py
         *update ml/metric/classification.py
         * update components/model_trainer.py
 

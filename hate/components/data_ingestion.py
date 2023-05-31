@@ -1,6 +1,7 @@
 import os
 import sys
 from zipfile import ZipFile
+import shutil
 from hate.logger import logging
 from hate.exception import CustomException
 from hate.configuration.gcloud_syncer import GCloudSync
@@ -41,6 +42,20 @@ class DataIngestion:
         try:
             with ZipFile(self.data_ingestion_config.ZIP_FILE_PATH, 'r') as zip_ref:
                 zip_ref.extractall(self.data_ingestion_config.ZIP_FILE_DIR)
+
+            # Get the extracted folder name
+            extracted_folder_name = os.path.splitext(os.path.basename(self.data_ingestion_config.ZIP_FILE_PATH))[0]
+            extracted_folder_path = os.path.join(self.data_ingestion_config.ZIP_FILE_DIR, extracted_folder_name)
+
+            # Move the files out of the extracted folder
+            for root, dirs, files in os.walk(extracted_folder_path):
+                for file in files:
+                    source_file_path = os.path.join(root, file)
+                    destination_file_path = os.path.join(self.data_ingestion_config.ZIP_FILE_DIR, file)
+                    shutil.move(source_file_path, destination_file_path)
+
+            os.rmdir(extracted_folder_path)
+
 
             logging.info("Exited the unzip_and_clean method of Data ingestion class")
 
